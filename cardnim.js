@@ -29,6 +29,12 @@ var game=function($){
             this.onClickSetNumPlayers()
             this.onClickStart()
             this.onClickReset()
+            this.checkSpecialDate()
+        },
+        checkSpecialDate: function() {
+            if (this.isThanksgivingDate()) {
+                this.stone_style = 'turkey';
+            }
         },
         onClickSetNumPlayers: function(){
             $('#num_players').on('change', function(e){
@@ -76,7 +82,8 @@ var game=function($){
             cards = game.generateCards($('#num_stones').val(), $('#num_cards').val(), $('#useRandom').is(":checked"));
             players = new Array();
             for(var i = 0; i < $('.player-name-field').length; i++) {
-                player = new Player($('.player-name-field')[i].value, cards)
+                cards = game.generateCards($('#num_stones').val(), $('#num_cards').val(), $('#useRandom').is(":checked"));
+                player = new Player($('.player-name-field')[i].value, Object.create(cards))
                 player.card_style = 'card'+i;
                 players.push(player);
             }
@@ -280,8 +287,28 @@ var game=function($){
         },
         endGame: function() {
             // todo: handle post game clean up
-        }
+        },
+        // Get the date of thanksgiving.
+        // https://coffeescript-cookbook.github.io/chapters/dates_and_times/date-of-thanksgiving
+        isThanksgivingDate: function() {
+            var theyear = new Date().getFullYear();
+            var nov1stDay = new Date(theyear, 10, 1, 0, 0, 0, 0);
+            var dayOfWeek = nov1stDay.getDay();
+            var tgDayOfMonth = nov1stDay.getDate() - (dayOfWeek - 4) + 21;
+            tgDayOfMonth =  22 + (11 - dayOfWeek) % 7 +'.' + (parseInt(nov1stDay.getMonth(), 10)+1);
+            
+            // if(tgDayOfMonth == 21){
+            //    tgDayOfMonth = 28;
+            // }
+            // else{
+            //     tgDayOfMonth = nov1stDay.getDate() - (dayOfWeek - 4) + 21;
+            // }
 
+            const date = new Date();
+            today =  date.getDate() + "." + parseInt(date.getMonth() + 1, 10);
+            
+            return today == tgDayOfMonth;
+        }
     }
 }(jQuery);
 

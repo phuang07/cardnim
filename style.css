@@ -100,8 +100,8 @@ li.game-card {
 .game-board .game-board--stone-list .stone {
     content: ".";
     background-color: blueviolet;
-    width: 25px;
-    height: 25px;
+    width: 2rem;
+    height: 2rem;
     display: block;
     float: left;
     margin: 5px;
@@ -149,8 +149,26 @@ li.game-card {
     background-repeat: no-repeat;
 }
 
+.card2 {
+    background-image: url("images/card2.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.card3 {
+    background-image: url("images/card3.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
 .stone0 {
-    background-image: url("images/stone0.png");
-    background-size: 25px 25px;
+    background-image: url("images/stone.png");
+    background-size: 2rem 2rem;
+    background-repeat: no-repeat;
+}
+
+.turkey {
+    background-image: url("images/turkey.png");
+    background-size: 2rem 2rem;
     background-repeat: no-repeat;
 }
