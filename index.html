@@ -1,0 +1,77 @@
+<html>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <body>
+        <div class="main container d-flex flex-column justify-content-center">
+            <div class="row">
+                <div class="game-config col-3">
+                    <div class="game-title">
+<pre>
+  ____              _       _           
+ / ___|__ _ _ __ __| |_ __ (_)_ __ ___  
+| |   / _` | '__/ _` | '_ \| | '_ ` _ \ 
+| |__| (_| | | | (_| | | | | | | | | | |
+ \____\__,_|_|  \__,_|_| |_|_|_| |_| |_|
+</pre>
+</div>
+                    <form class="game-config-form">
+                        <div class="form-floating">
+                        <select class="form-select" aria-required="true" required aria-label="Select number of players" id="num_players" name="num_players">
+                            <option value="2" selected>Two</option>
+                            <option value="3">Three</option>
+                            <option value="4">Four</option>
+                            <option value="5">Five</option>
+                          </select>
+                          <label for="num_players"># of players</label>
+                        </div>
+                          <div class="game-player-name-list">
+                            <input type="text" class="form-control player-name-field" required="" id="player_1" value="player_1" placeholder="Enter name for player 1" aria-label="Player name">
+                            <input type="text" class="form-control player-name-field" required="" id="player_2" value="COM" placeholder="Enter name for player 2" aria-label="Player name">
+                          </div>
+                          <div class="form-floating">
+ 
+
+                        <select class="form-select" aria-required="true" required aria-label="Select number of stones" id="num_stones" name="num_stones">
+                            <option value="10">10</option>
+                            <option value="25" >25</option>
+                            <option value="50" selected>50</option>
+                            <option value="75">75</option>
+                            <option value="100">100</option>
+                          </select>
+                          <label for="num_stones"># of stones</label>
+                          </div>
+ 
+                          <div class="form-floating">
+                          <input type="text" class="form-control" id="num_cards" name='num_cards' value=15 required placeholder="Number of Cards" aria-label="Number of Cards">
+                            <label for="num_cards"># of cards</label>
+                            </div>
+                          
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" checked id="useRandom">
+                            <label class="form-check-label" for="useRandom"> Use random card </label>
+                          </div>
+                                                  <div class="input-groups">
+                            <button class="btn btn-game-reset btn-primary" type="button" id="reset">Reset</button>
+                            <button class="btn btn-game-start btn-primary" type="submit" id="start">Start</button>
+                        </div>
+                          
+
+                    </form>
+                </div>
+                <div class="game-area col-9">
+                    <div class="game-current-player"> </div>
+                    <div class="game-board d-flex flex-column p-2">
+                        <div class="row">
+                            <div class="game-board--main"> </div>
+                        </div>
+                        <div class="row align-self-center game-board--status"> </div>
+                    </div>
+                    <div class="game-players"> </div>
+                </div>
+            </div>
+        </div>
+        <script src="bootstrap.min.js"></script>
+        <script src="cardnim.js"></script>
+    </body>
+</html>

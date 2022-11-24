@@ -1,0 +1,154 @@
+.main {
+    background-color: lightblue;
+    min-height: 100%;
+    margin: auto;
+}
+
+.main>.row {
+    min-height: 80%;
+    border: solid 1px black;
+}
+.game-title {
+    font-size: 0.6rem;
+    font-weight: bold;
+    text-align: center;
+}
+.game-config {
+    border-right: 1px solid black;
+    min-height: 80%;
+}
+
+.game-config-form input, 
+.game-config-form select, 
+.game-config-form .form-check label, 
+.game-config-form button {
+    margin-top: 20px;
+}
+
+.game-area {
+    display: flex;
+    flex-direction: column;
+}
+
+.game-board {
+    /* border: 1px solid #000; */
+    flex: 2 1 auto;
+    background-color: white;
+}
+
+
+.game-current-player ul {
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.game-current-player .game-card {
+    cursor: pointer;
+    width: 50px;
+    height:70px;
+    text-align: center;
+    margin: 2px;    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    background-size: 50px 70px;
+
+}
+
+.game-current-player .game-card:hover {
+    background-color: pink;
+    color: white;
+    transform: rotate(-10deg) translateY(-0.5rem);
+}
+
+fieldset.current_player {
+    margin: 5px 0 20px 0;
+    padding: 0 10px 10px 10px
+}
+
+
+.player {
+    margin: 10px 0;
+    padding: 0 10px 10px 10px;
+    border-bottom: none;
+}
+
+.player ul {
+    display: flex;
+}
+
+li.game-card {
+    align-content: center;
+    text-align: center;
+    margin: 0 2px;
+    width: 25px;
+    list-style: none;
+    background-color: white;
+}
+
+
+.game-board .game-board--status {
+    margin-top: auto;
+    font-size: 2rem;
+    font-style: bold;
+}
+
+.game-board .game-board--stone-list .stone {
+    content: ".";
+    background-color: blueviolet;
+    width: 25px;
+    height: 25px;
+    display: block;
+    float: left;
+    margin: 5px;
+}
+
+.game-current-player {
+    clear: both;
+
+}
+
+
+
+.game-players legend{
+    font-size: 1rem;
+    color: white;
+}
+
+.game-players ul {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.game-players ul .game-card {
+    display: flex;
+    width: 2rem;
+    height: 2.6rem;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: bold;
+    margin: 2px;
+    background-size: 2rem 2.6rem;
+}
+
+
+.card0 {
+    background-image: url("images/card0.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.card1 {
+    background-image: url("images/card1.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.stone0 {
+    background-image: url("images/stone0.png");
+    background-size: 25px 25px;
+    background-repeat: no-repeat;
+}
