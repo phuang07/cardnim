@@ -9,9 +9,9 @@ class Player {
     }
 
     removeCard(card_index) {
+        $('.game-board--previous-move').html(this.name + " removed " +this.cards[card_index] + " stones. ");
         this.cards.splice(card_index,1);
         console.log(this.cards);
-        $('.game-board--previous-move').html(this.name + " removed " +this.cards[card_index] + " stones. ");
     }
 }
 
