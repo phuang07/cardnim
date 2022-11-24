@@ -57,10 +57,12 @@
 
 }
 
-.game-current-player .game-card:hover {
-    background-color: pink;
-    color: white;
-    transform: rotate(-10deg) translateY(-0.5rem);
+@media (hover: hover) {
+    .game-current-player .game-card:hover {
+        background-color: pink;
+        color: white;
+        transform: rotate(-10deg) translateY(-0.5rem);
+    }
 }
 
 fieldset.current_player {
