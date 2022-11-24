@@ -1,9 +1,9 @@
 class Player {
-    constructor(name, cards) {
+    constructor(name, cards, play_time=120) {
         this.name = name;
         console.log("create player: " + name);
         this.cards = cards;
-        this.time_remain = 10;
+        this.time_remain = play_time;
         this.status = '';
         this.card_style= 'card1';
     }
@@ -23,7 +23,7 @@ var game=function($){
         player_list: new Array(),
         current_player_index: 0,
         stone_style: 'stone0',
-        timer: '',
+        com_delay: 5000,
 
         init: function(){
             // console.log("game init")
@@ -89,7 +89,7 @@ var game=function($){
             players = new Array();
             for(var i = 0; i < $('.player-name-field').length; i++) {
                 cards = game.generateCards($('#num_stones').val(), $('#num_cards').val(), $('#useRandom').is(":checked"));
-                player = new Player($('.player-name-field')[i].value, Object.create(cards))
+                player = new Player($('.player-name-field')[i].value, Object.create(cards), $('#play_time').val())
                 player.card_style = 'card'+i;
                 players.push(player);
             }
@@ -297,7 +297,7 @@ var game=function($){
                 game.setNextPlayer();
                 game.renderGameBoard();                        
             }       
-        }, 2000);
+        }, game.com_delay);
 
 
         },
