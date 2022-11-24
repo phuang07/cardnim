@@ -63,6 +63,10 @@ var game=function($){
                     if (confirm("Game in Progress. Start a new game?") == true) {
                         game.resetGame();
                       }                 
+                } else if(game.status == 'End') {
+                    if (confirm("The game has ended. Start a new game?") == true) {
+                        game.resetGame();
+                      }       
                 } else {
                     game.setupGamePlayers();
                     game.status = 'In Progress';
