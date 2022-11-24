@@ -36,6 +36,9 @@
     background-color: white;
 }
 
+.game-current-player {
+    position: relative;
+}
 
 .game-current-player ul {
     display: flex;
@@ -56,6 +59,16 @@
     background-size: 50px 70px;
 
 }
+
+.game-current-player .com_player_overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: gray;
+    opacity: 0;
+    top:0;
+}
+
 
 @media (hover: hover) {
     .game-current-player .game-card:hover {
@@ -93,9 +106,16 @@ li.game-card {
 
 .game-board .game-board--status {
     margin-top: auto;
-    font-size: 2rem;
-    font-style: bold;
+    font-size: 1rem;
+    font-weight: bold;
+    flex-wrap: nowrap;
 }
+
+.game-board .game-board--status span {
+    flex: 0 0 fit-content;
+    padding: 1px;    
+}
+
 
 .game-board .game-board--stone-list .stone {
     content: ".";
@@ -136,6 +156,10 @@ li.game-card {
     background-size: 2rem 2.6rem;
 }
 
+.game-players .player {
+    position: relative;
+}
+
 
 .card0 {
     background-image: url("images/card0.png");
@@ -171,4 +195,16 @@ li.game-card {
     background-image: url("images/turkey.png");
     background-size: 2rem 2rem;
     background-repeat: no-repeat;
+}
+
+.lost {
+    background-image: url("images/lost.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 5rem;
+    height: 5rem;
+    display: block;
+    position: absolute;
+    top: -40px;
+    left: -20px;    
 }

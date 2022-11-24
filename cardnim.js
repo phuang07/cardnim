@@ -3,7 +3,7 @@ class Player {
         this.name = name;
         console.log("create player: " + name);
         this.cards = cards;
-        this.time_remain = 120;
+        this.time_remain = 10;
         this.status = '';
         this.card_style= 'card1';
     }
@@ -11,6 +11,7 @@ class Player {
     removeCard(card_index) {
         this.cards.splice(card_index,1);
         console.log(this.cards);
+        $('.game-board--previous-move').html(this.name + " removed " +this.cards[card_index] + " stones. ");
     }
 }
 
@@ -22,6 +23,7 @@ var game=function($){
         player_list: new Array(),
         current_player_index: 0,
         stone_style: 'stone0',
+        timer: '',
 
         init: function(){
             // console.log("game init")
@@ -30,6 +32,7 @@ var game=function($){
             this.onClickStart()
             this.onClickReset()
             this.checkSpecialDate()
+            
         },
         checkSpecialDate: function() {
             if (this.isThanksgivingDate()) {
@@ -55,6 +58,7 @@ var game=function($){
                 game.num_stones = $('#num_stones').val()
                 game.num_cards = $('#num_cards').val()
                 game.disableConfigForm();
+
                 if (game.status == 'In Progress') {
                     if (confirm("Game in Progress. Start a new game?") == true) {
                         game.resetGame();
@@ -62,6 +66,8 @@ var game=function($){
                 } else {
                     game.setupGamePlayers();
                     game.status = 'In Progress';
+                    // game.setNextPlayer();
+                    game.renderGameBoard();
                 }
             })
         },
@@ -127,9 +133,9 @@ var game=function($){
         },
         updateGameStatus: function() {
             let renderStr = "";
-            renderStr = game.num_stones + " stones remain";
+            renderStr = " Stones remain: " + game.num_stones;
 
-            $('.game-board--status').html(renderStr);
+            $('.game-board--stone-remain').html(renderStr);
         },
         updateGamePlayers: function() {
             $('.game-players').empty();
@@ -142,7 +148,7 @@ var game=function($){
             let renderStr = "";
             renderStr = "<fieldset class='player border'><legend class='float-none w-auto p-2'>"+player.name+"</legend>";
             if (player.status == "lose") {
-                renderStr += "(lost)"
+                renderStr += "<span class='lost'></span>"
             }
             renderStr += "<ul>";
             
@@ -168,24 +174,33 @@ var game=function($){
 
         },
         updateCurrentPlayer: function() {
+
+            clearInterval(game.timer);
+            
             var player = game.player_list[game.current_player_index]
             let renderStr = "";
-            renderStr = "<fieldset class='current_player border'><legend class='float-none w-auto p-2'>"+player.name+"'s turn</legend>";
+            renderStr = "<fieldset class='current_player border'>";
+            renderStr += "<legend class='float-none w-auto p-2'>"+player.name+"'s turn";
+            renderStr+= " (Time remain: <span id='time_remain'>"+player.time_remain+"</span>s)</legend>";
             renderStr += "<ul>";
             
             for(var i = 0; i < player.cards.length; i++) {
                 renderStr += "<li class='game-card "+player.card_style+" 'data-index='"+i+"' data-value='"+player.cards[i]+"'>"+player.cards[i]+"</li>";
             }
 
-            renderStr += "</ul></fieldset>";
+            renderStr += "</ul>";
             
+            if (player.name == 'COM') {
+                renderStr += "<div class='com_player_overlay'>xyz</div>";
+            }
+
+            renderStr += "</fieldset>";
+
             $('.game-current-player').empty();
             $('.game-current-player').append(renderStr);
 
             // Register listener
             $('.game-current-player .game-card').on('click', function(e){
-                console.log(this);
-                console.log(player);
 
                 if (game.status == "End") {
                     if (confirm("The game has ended. Start a new game?") == true) {
@@ -196,17 +211,40 @@ var game=function($){
                     player.removeCard($(this).data('index'));
                     game.removeStones($(this).data('value'));
                     if(game.isEnd()) {
+                        game.renderGameBoard();                        
                         game.announceResult();
                     } else {
                         game.setNextPlayer();
-                        game.renderGameBoard();
+                        game.renderGameBoard();                        
                     }
                 }
             });
+            // timer
+            clearInterval(game.timer);
+            game.timer = setInterval(function(){
+                player.time_remain = player.time_remain - 1;
+                $('#time_remain').text(player.time_remain);
+
+                if (player.time_remain <= 0) {
+                    player.status = 'lose';
+                    if(game.isEnd()) {
+                        game.renderGameBoard();                        
+                        game.announceResult();
+                    } else {
+                        game.setNextPlayer();
+                        game.renderGameBoard();                        
+                    }                     
+                }
+
+            }, 1000);            
+            
+            console.log("player name:", player.name);
+            if (player.name == 'COM') {
+                game.comPlaying(player);
+            }
 
         },
         setNextPlayer: function() {
-
             var index = game.current_player_index + 1;
 
             if (index == game.player_list.length) {
@@ -214,15 +252,54 @@ var game=function($){
             }
             var player = game.player_list[index]
             
+            var counter = 0;
             while(player.status == 'lose') {
                 index += 1;
                 if (index == game.player_list.length) {
                     index = 0;
                 }
-                player = game.player_list[index]
+                player = game.player_list[index];
+                counter++;
+                if (counter > 100) { 
+                    console.log("Can't find next player.");
+                    $('.game-board--status').html("No game winner");
+                    game.endGame();
+                    break ; 
+                }
             }
 
             game.current_player_index = index;
+            
+        },
+        comPlaying: function(player) {
+            console.log('computer player');
+            let card_val = 999999;
+            let index = 0;
+            let counter = 0;
+            setTimeout(() => { console.log("Sleep");
+            while (card_val > game.num_stones) {
+                index = Math.floor(Math.random() * (player.cards.length));
+                card_val = player.cards[index];
+                counter++;
+                if (counter > 100) {
+                    index = 0;
+                    break;
+                }
+            }
+            
+            console.log("choose " + card_val);
+            player.removeCard(index);
+            game.removeStones(card_val);
+            if(game.isEnd()) {
+                game.setNextPlayer();
+                game.announceResult();
+            } else {
+                game.setNextPlayer();
+                game.renderGameBoard();                        
+            }       
+        }, 2000);
+
+
         },
         removeStones: function(num_stones) {
             if (game.num_stones < num_stones) {
@@ -274,7 +351,6 @@ var game=function($){
             if (active_players.length == 1) {
                 game.setGameStatus('End');
                 active_players[0].status = 'win';
-                console.log(game.player_list);
                 return true;
             } else {
                 return false;
@@ -287,6 +363,8 @@ var game=function($){
         },
         endGame: function() {
             // todo: handle post game clean up
+            clearInterval(game.timer);
+
         },
         // Get the date of thanksgiving.
         // https://coffeescript-cookbook.github.io/chapters/dates_and_times/date-of-thanksgiving
