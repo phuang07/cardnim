@@ -65,15 +65,28 @@ var game=function($){
                       }                 
                 } else if(game.status == 'End') {
                     if (confirm("The game has ended. Start a new game?") == true) {
-                        game.resetGame();
-                      }       
+                        game.replayGame();
+                    }       
                 } else {
                     game.setupGamePlayers();
                     game.status = 'In Progress';
-                    // game.setNextPlayer();
                     game.renderGameBoard();
                 }
             })
+        },
+        replayGame: function() {
+            game.status='';
+            game.num_players = $('.game-player-name-list').length
+            game.num_stones = $('#num_stones').val()
+            game.num_cards = $('#num_cards').val()
+            $('.game-board--winner').html("")
+            $('.game-board--previous-move').html("")
+            $('.game-board--previous-move').show();
+            $('.game-board--stone-remain').show();
+
+            game.setupGamePlayers();
+            game.status = 'In Progress';
+            game.renderGameBoard();
         },
         onClickReset: function() {
             $('#reset').on('click', function(){
@@ -211,7 +224,7 @@ var game=function($){
 
                 if (game.status == "End") {
                     if (confirm("The game has ended. Start a new game?") == true) {
-                        game.resetGame();
+                        game.replayGame();
                       }                 
                 } else {
                     // remove player card
@@ -365,7 +378,9 @@ var game=function($){
         },        
         announceResult: function() {
             var winner = game.getWinner();
-            $('.game-board--status').html("Winner: " + winner.name);
+           $('.game-board--previous-move').hide();
+           $('.game-board--stone-remain').hide();
+            $('.game-board--winner').html("Winner: " + winner.name);
             game.endGame();
         },
         endGame: function() {
