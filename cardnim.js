@@ -118,6 +118,10 @@ var game=function($){
             shuffle = (array) => array.sort(() => Math.random() - 0.5);
             shuffle(players);
 
+            while (players[0].name=='COM') {
+                shuffle(players);
+            }
+
             game.player_list= players;
             game.renderGameBoard()
 
