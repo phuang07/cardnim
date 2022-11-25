@@ -58,7 +58,7 @@ var game=function($){
                 game.num_stones = $('#num_stones').val()
                 game.num_cards = $('#num_cards').val()
                 game.disableConfigForm();
-
+                game.hideSplashImg();
                 if (game.status == 'In Progress') {
                     if (confirm("Game in Progress. Start a new game?") == true) {
                         game.resetGame();
@@ -87,6 +87,9 @@ var game=function($){
         },
         disableConfigForm: function() {
             $(".game-config-form input, .game-config-form select").prop('disabled', true);
+        },
+        hideSplashImg: function() {
+            $('.splash').hide();
         },
         setupGamePlayers: function() {
             cards = game.generateCards($('#num_stones').val(), $('#num_cards').val(), $('#useRandom').is(":checked"));
